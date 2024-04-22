@@ -1,48 +1,30 @@
-import mongoose, {Document , Schema} from "mongoose";
+// workspace.model.ts
 
-export interface ICategory extends Document{
-    name: string,
-    description : string
+import mongoose, { Schema, Document } from "mongoose";
+
+export interface Category {
+    _id: mongoose.Schema.Types.ObjectId;
+    name: string;
+    description: string;
 }
 
-export interface IWorkspace extends Document{
-    name : string,
-    description : string,
-    category : ICategory,
-    owner : string
+export interface WorkspaceDocument extends Document {
+    name: string;
+    description: string;
+    categories?: Category[];
+    owner: mongoose.Schema.Types.ObjectId;
 }
 
-const categorySchema = new Schema<ICategory>({
-    name: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    description: {
-        type: String,
-        trim: true
-    }
+const categorySchema = new Schema<Category>({
+    name: { type: String, required: true },
+    description: { type: String, required: true }
 });
 
-const workspaceSchema = new Schema<IWorkspace>({
-    name : {
-        type : String,
-        required : true,
-        trim : true
-    },
-    description : {
-        type : String,
-        trim : true
-    },
-    category: {
-        type: categorySchema, 
-    },
-    owner: {
-        type: String,
-        required: true
-    }
-})
+const workspaceSchema = new Schema<WorkspaceDocument>({
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    categories: [categorySchema],
+    owner: { type: mongoose.Schema.Types.ObjectId, required: true }
+});
 
-export const Category = mongoose.model<ICategory>("Category", categorySchema);
-export const Workspace = mongoose.model<IWorkspace>("Workspace", workspaceSchema);
-
+export const Workspace = mongoose.model<WorkspaceDocument>("Workspace", workspaceSchema);
