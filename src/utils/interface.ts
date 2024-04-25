@@ -16,3 +16,19 @@ export interface WORKSPACE_SCHEMA{
     owner: mongoose.Schema.Types.ObjectId
 
 }
+
+
+interface comment{
+    user_id : mongoose.Schema.Types.ObjectId,
+    text : string
+}
+
+export interface SNIPPET_SCHEMA{
+    title : string,
+    description : string,
+    code  :string,
+    tags : string[],
+    category_id : mongoose.Schema.Types.ObjectId,
+    share_id : string,
+    comments : comment[],
+}

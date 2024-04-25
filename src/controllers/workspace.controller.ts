@@ -26,9 +26,7 @@ export async function createWorkspace(req: Request, res: Response) {
 }
 
 export async function fetchWorkspaces(req: Request, res: Response) {
-  // logger.info("Fetching workspacing ....")
   try {
-    logger.info(`Fetch all workspaces ........`);
     const id = req.query.user_id; // user id
     let data;
 

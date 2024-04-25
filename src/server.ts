@@ -7,6 +7,7 @@ const PORT = 8001;
 import logger from "./utils/logger";
 const workspace = require("./Routes/workspace.route");
 const categoryRouter = require("./Routes/category.route");
+const snippet = require("./Routes/snippet.route");
 dotenv.config();
 
 db();
@@ -17,6 +18,7 @@ app.use(express.json());
 
 app.use("/v1/api/workspace", workspace);
 app.use("/vi/api/category", categoryRouter);
+app.use("/v1/api/snippet", snippet);
 
 app.listen(PORT, () => {
   logger.info(`Server has started and running on port ${PORT}`);

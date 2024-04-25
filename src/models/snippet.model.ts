@@ -37,10 +37,10 @@ const snippetSchema = new Schema({
         type: Schema.Types.ObjectId,
         required: true
     },
-    share_id: {
-        type: String,
-        required: true
-    },
+    // share_id: {  // [FIX], we will be needing this in future
+    //     type: String,
+    //     required: true
+    // },
     comments: {
         type: [commentSchema], // Array of comments
         default: []
