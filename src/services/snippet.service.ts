@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { SNIPPET_SCHEMA } from "../utils/interface";
 import Snippet from "../models/snippet.model";
 import logger from "../utils/logger";
+import SharedDb from "../models/shared.model";
 
 export async function ADD_SNIPPET(body: SNIPPET_SCHEMA) {
   try {
@@ -22,6 +23,37 @@ export async function FETCH_ALL_SNIPPETS(c_id: mongoose.Types.ObjectId) {
   } catch (error) {
     logger.error(
       `Caught error in snippet service while fetching snippets => ${error}`
+    );
+    throw error;
+  }
+}
+export async function UPDATE_SNIPPET_SHARE_STATUS(snippet_id: string) {
+  try {
+    const snippetsData = await Snippet.updateOne(
+      { _id: snippet_id },
+      { share_status: true }
+    );
+    return snippetsData;
+  } catch (error) {
+    logger.error(
+      `Caught error in snippet service while updating snippet share status => ${error}`
+    );
+    throw error;
+  }
+}
+export async function SHARE_SNIPPET_PERSONALLY(
+  snippet_id: string,
+  email: string
+) {
+  try {
+    const snippetsData = await SharedDb.create({
+      snippet_id: snippet_id,
+      email: email,
+    });
+    return snippetsData;
+  } catch (error) {
+    logger.error(
+      `Caught error in snippet service while sharing snippet personally => ${error}`
     );
     throw error;
   }
