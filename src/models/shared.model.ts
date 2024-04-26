@@ -2,8 +2,9 @@ import mongoose, { Document, Schema } from "mongoose";
 
 export interface IShared extends Document {
   email: string;
-  workspace_id: mongoose.Schema.Types.ObjectId;
-  category_id: mongoose.Schema.Types.ObjectId;
+  workspace_id?: mongoose.Schema.Types.ObjectId;
+  category_id?: mongoose.Schema.Types.ObjectId;
+  snippet_id?: mongoose.Schema.Types.ObjectId;
   shared_data:string;
   status?: "invited" | "accepted";
 }
@@ -19,6 +20,8 @@ const SharedSchema = new Schema<IShared>({
   category_id: {
     type: mongoose.Schema.Types.ObjectId,
   },
+  snippet_id: {
+    type: mongoose.Schema.Types.ObjectId,
   shared_data:{
     type: String,
     enum: ["workspace", "category"],
