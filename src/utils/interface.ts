@@ -23,12 +23,19 @@ interface comment{
     text : string
 }
 
-export interface SNIPPET_SCHEMA{
-    title : string,
-    description : string,
-    code  :string,
-    tags : string[],
-    category_id : mongoose.Schema.Types.ObjectId,
-    share_id : string,
-    comments : comment[],
+export interface SNIPPET_SCHEMA {
+  title: string;
+  description: string;
+  code: string;
+  tags: string[];
+  category_id: mongoose.Schema.Types.ObjectId;
+  share_id: string;
+  comments: comment[];
+}
+
+export interface SHARE_TO_EMAIL {
+  email: string;
+  workspace_id: mongoose.Schema.Types.ObjectId;
+  category_id: mongoose.Schema.Types.ObjectId;
+  shared_data: string
 }

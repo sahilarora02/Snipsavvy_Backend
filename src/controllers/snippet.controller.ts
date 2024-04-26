@@ -17,7 +17,7 @@ export async function addSnippet(req: Request, res: Response) {
   } catch (error) {
     logger.info(`RES : an error occured in adding an snippet => ${error}`);
     return res.status(500).json({
-      message: "Snippet added successfully",
+      message: "Error while adding snippet",
       error: error,
     });
   }
