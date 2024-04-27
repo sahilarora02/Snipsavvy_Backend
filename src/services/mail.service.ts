@@ -21,6 +21,8 @@ const emailService = async (
 
     const htmlContent = template(content);
 
+    console.log("from mail=>", process.env.EMAIL_USERNAME);
+
     const mailOptions: nodemailer.SendMailOptions = {
       from: process.env.EMAIL_USERNAME || "",
       to: email,

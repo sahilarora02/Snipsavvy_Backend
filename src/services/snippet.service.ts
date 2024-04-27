@@ -61,6 +61,7 @@ export async function SHARE_SNIPPET_PERSONALLY(
     const snippetsData = await SharedDb.create({
       snippet_id: snippet_id,
       email: email,
+      shared_data: "snippet",
     });
     return snippetsData;
   } catch (error) {

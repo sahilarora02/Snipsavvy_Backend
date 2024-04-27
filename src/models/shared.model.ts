@@ -25,7 +25,7 @@ const SharedSchema = new Schema<IShared>({
   },
   shared_data: {
     type: String,
-    enum: ["workspace", "category"],
+    enum: ["workspace", "category", "snippet"],
     required: true,
   },
   status: {
