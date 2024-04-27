@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   ADD_SNIPPET,
   FETCH_ALL_SNIPPETS,
+  FETCH_A_SNIPPET,
   SHARE_SNIPPET_PERSONALLY,
   UPDATE_SNIPPET_SHARE_STATUS,
 } from "../services/snippet.service";
@@ -37,18 +38,22 @@ export async function getSnippets(req: Request, res: Response) {
 
   try {
     const cat_id = req.query.cat_id; // user id
+    const snippet_id = req.query.snippet_id;
 
     if (cat_id && typeof cat_id == "string") {
-      const objectId = new mongoose.Types.ObjectId(cat_id);
       logger.info(
-        `REQ : Fetch all snippets for a particular category => ${objectId}`
+        `REQ : Fetch all snippets for a particular category => ${cat_id}`
       );
-      data = await FETCH_ALL_SNIPPETS(objectId);
+      data = await FETCH_ALL_SNIPPETS(cat_id);
     } else {
-      logger.error("cat_id is required or is in the wrong format");
-      return res.status(500).json({
-        message: "cat_id is required or is in the wrong format",
-      });
+      if (snippet_id && typeof snippet_id == "string") {
+        data = await FETCH_A_SNIPPET(snippet_id);
+      } else {
+        logger.error("No id provided");
+        return res.status(500).json({
+          message: "BAD REQUEST - no id provided",
+        });
+      }
     }
 
     logger.info(`RESP : Snippets fetched => ${data}`);

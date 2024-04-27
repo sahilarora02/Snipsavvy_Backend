@@ -5,7 +5,7 @@ export interface IShared extends Document {
   workspace_id?: mongoose.Schema.Types.ObjectId;
   category_id?: mongoose.Schema.Types.ObjectId;
   snippet_id?: mongoose.Schema.Types.ObjectId;
-  shared_data:string;
+  shared_data: string;
   status?: "invited" | "accepted";
 }
 
@@ -22,9 +22,10 @@ const SharedSchema = new Schema<IShared>({
   },
   snippet_id: {
     type: mongoose.Schema.Types.ObjectId,
-  shared_data:{
+  },
+  shared_data: {
     type: String,
-    enum: ["workspace", "category"],
+    enum: ["workspace", "category", "snippet"],
     required: true,
   },
   status: {
