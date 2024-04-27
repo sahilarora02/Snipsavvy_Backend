@@ -15,7 +15,7 @@ export async function ADD_SNIPPET(body: SNIPPET_SCHEMA) {
   }
 }
 
-export async function FETCH_ALL_SNIPPETS(c_id: mongoose.Types.ObjectId) {
+export async function FETCH_ALL_SNIPPETS(c_id: string) {
   try {
     const snippetsData = await Snippet.find({ category_id: c_id });
 
@@ -23,6 +23,18 @@ export async function FETCH_ALL_SNIPPETS(c_id: mongoose.Types.ObjectId) {
   } catch (error) {
     logger.error(
       `Caught error in snippet service while fetching snippets => ${error}`
+    );
+    throw error;
+  }
+}
+export async function FETCH_A_SNIPPET(s_id: string) {
+  try {
+    const snippetsData = await Snippet.find({ _id: s_id });
+
+    return snippetsData;
+  } catch (error) {
+    logger.error(
+      `Caught error in snippet service while fetching a single snippets => ${error}`
     );
     throw error;
   }
