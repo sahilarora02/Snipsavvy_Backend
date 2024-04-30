@@ -1,9 +1,13 @@
-import { createWorkspace, fetchWorkspaces } from "../controllers/workspace.controller";
-import express, { Router } from "express"
-const workspace : Router = express.Router()
+import {
+  Delete_Workspace,
+  createWorkspace,
+  fetchWorkspaces,
+} from "../controllers/workspace.controller";
+import express, { Router } from "express";
+const workspace: Router = express.Router();
 
+workspace.post("/", createWorkspace);
+workspace.get("/", fetchWorkspaces);
+workspace.delete("/", Delete_Workspace);
 
-workspace.post("/" , createWorkspace)
-workspace.get("/" , fetchWorkspaces)
-
-module.exports = workspace
+module.exports = workspace;

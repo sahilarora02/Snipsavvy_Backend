@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import {
   ADD_SNIPPET,
+  DELETE_SNIPPET,
   FETCH_ALL_SNIPPETS,
   FETCH_A_SNIPPET,
   SHARE_SNIPPET_PERSONALLY,
@@ -120,5 +121,28 @@ export async function shareSnippet(req: Request, res: Response) {
     return res
       .status(500)
       .json({ msg: "Internal Server Error in sharing snippet" });
+  }
+}
+
+export async function delete_snippet(req: Request, res: Response) {
+  try {
+    const s_id = req.query.s_id;
+    logger.info(`REQ : delete a snippet => ${s_id}`);
+    if (!s_id) {
+      logger.error("snippet id is required");
+      return res
+        .status(500)
+        .json({ msg: "snippet id is required for deleting a snippet" });
+    }
+    let data;
+    if (typeof s_id == "string") {
+      data = await DELETE_SNIPPET(s_id);
+    }
+
+    logger.info(`RES : snippet deleted successfully => ${data}`);
+    return res.status(200).json({ msg: "snippet deleted successfully" });
+  } catch (error) {
+    logger.error("error in deleting a snippet");
+    return res.status(500).json({ msg: "Error in deleting a snippet" });
   }
 }

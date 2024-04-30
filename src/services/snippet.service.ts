@@ -71,3 +71,15 @@ export async function SHARE_SNIPPET_PERSONALLY(
     throw error;
   }
 }
+
+export async function DELETE_SNIPPET(id: string) {
+  try {
+    await Snippet.deleteOne({ _id: id });
+    return {
+      message: "snippet deleted successfully",
+    };
+  } catch (error) {
+    logger.error("Caught error in snippet service while deleting a snippet");
+    throw error;
+  }
+}

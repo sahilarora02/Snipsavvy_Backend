@@ -28,3 +28,17 @@ export async function FETCH_ALL_WORKSPACES(id: mongoose.Types.ObjectId) {
     throw error;
   }
 }
+
+export async function DELETE_WORKSPACE(id: string) {
+  try {
+    await Workspace.deleteOne({ _id: id });
+    return {
+      message: "Workspace deleted successfully",
+    };
+  } catch (error) {
+    logger.error(
+      "Caught error in workspace service while deleting a workspace"
+    );
+    throw error;
+  }
+}

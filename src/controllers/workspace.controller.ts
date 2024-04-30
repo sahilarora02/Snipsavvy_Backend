@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import {
   CREATE_WORKSPACE,
+  DELETE_WORKSPACE,
   FETCH_ALL_WORKSPACES,
 } from "../services/workspace.service";
 import logger from "../utils/logger";
-import { WorkspaceDocument } from "../models/workspace.model";
 import mongoose from "mongoose";
 
 export async function createWorkspace(req: Request, res: Response) {
@@ -54,5 +54,27 @@ export async function fetchWorkspaces(req: Request, res: Response) {
       message: "Error in fetching a workspaces",
       error,
     });
+  }
+}
+
+export async function Delete_Workspace(req: Request, res: Response) {
+  try {
+    const w_id = req.query.w_id;
+    logger.info(`REQ : Delete a workspace => ${w_id}`);
+    if (!w_id) {
+      logger.error("workspace id is required while deleting a workspace");
+      return res.status(500).json({ mesg: "Workspace id is required" });
+    }
+
+    let data;
+    if (typeof w_id == "string") {
+      data = await DELETE_WORKSPACE(w_id);
+    }
+
+    logger.info("RES : workspace deleted successfully");
+    return res.status(200).json({ msg: "workspace deleted" });
+  } catch (error) {
+    logger.error(`Error in deleting a workspace => ${error}`);
+    return res.status(500).json({ msg: "error in deleting a workspace" });
   }
 }
