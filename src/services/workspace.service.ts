@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import { WORKSPACE_SCHEMA } from "../utils/interface";
 import { WorkspaceDocument } from "../models/workspace.model";
 import logger from "../utils/logger";
+import SharedDb from "../models/shared.model";
 
 export async function CREATE_WORKSPACE(data: WORKSPACE_SCHEMA) {
   try {
@@ -38,6 +39,43 @@ export async function DELETE_WORKSPACE(id: string) {
   } catch (error) {
     logger.error(
       "Caught error in workspace service while deleting a workspace"
+    );
+    throw error;
+  }
+}
+
+export async function GET_WORKSPACE_ACCESS(w_id: string) {
+  try {
+    const data = await SharedDb.find({
+      workspace_id: w_id,
+      shared_data: "workspace",
+    }).select("workspace_id email");
+    return data;
+  } catch (error) {
+    logger.error(
+      `Caught error in workspace service while fetching the workspace access`
+    );
+    throw error;
+  }
+}
+
+export async function DELETE_WORKSPACE_ACCESS({
+  workspace_id,
+  email,
+}: {
+  workspace_id: string;
+  email: string;
+}) {
+  try {
+    const data = await SharedDb.deleteOne({
+      workspace_id,
+      email,
+      shared_data: "workspace",
+    });
+    return data;
+  } catch (error) {
+    logger.error(
+      "Caught error in workspace service while deleting the workspace access"
     );
     throw error;
   }

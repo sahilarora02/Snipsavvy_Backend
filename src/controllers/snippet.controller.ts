@@ -4,6 +4,7 @@ import {
   DELETE_SNIPPET,
   FETCH_ALL_SNIPPETS,
   FETCH_A_SNIPPET,
+  GLOBAL_SEARCH,
   SHARE_SNIPPET_PERSONALLY,
   UPDATE_SNIPPET_SHARE_STATUS,
 } from "../services/snippet.service";
@@ -144,5 +145,19 @@ export async function delete_snippet(req: Request, res: Response) {
   } catch (error) {
     logger.error("error in deleting a snippet");
     return res.status(500).json({ msg: "Error in deleting a snippet" });
+  }
+}
+
+export async function global_search_for_snippets(req: Request, res: Response) {
+  try {
+    const text_to_search = req.query.text;
+    if (typeof text_to_search == "string") {
+      const data = await GLOBAL_SEARCH(text_to_search);
+      return res.status(200).json(data);
+    }
+
+    return res.status(500).json({ msg: "query is not valid" });
+  } catch (error) {
+    return res.status(500).json({ msg: "INTERNAL SERVER ERROR" });
   }
 }

@@ -83,3 +83,22 @@ export async function DELETE_SNIPPET(id: string) {
     throw error;
   }
 }
+
+export async function GLOBAL_SEARCH(text: string) {
+  try {
+    const result = await Snippet.find({
+      $or: [
+        { title: { $regex: text, $options: "i" } },
+        { description: { $regex: text, $options: "i" } },
+        { tags: { $regex: text, $options: "i" } },
+      ],
+    });
+
+    return result;
+  } catch (error) {
+    logger.error(
+      `Caught error in snippet service while doing global search => ${error}`
+    );
+    throw error;
+  }
+}
