@@ -46,10 +46,7 @@ export async function fetchWorkspaces(req: Request, res: Response) {
     }
 
     logger.info(`RESP : Workspaces fetched => ${data}`);
-    return res.status(201).json({
-      message: "Workspaces fetched successfully",
-      data,
-    });
+    return res.status(201).json(data);
   } catch (error) {
     logger.error(`Error in fetching workspaces => ${error}`);
     return res.status(500).json({
