@@ -59,10 +59,7 @@ export async function getSnippets(req: Request, res: Response) {
     }
 
     logger.info(`RESP : Snippets fetched => ${data}`);
-    return res.status(200).json({
-      message: "Snippets fetched successfully",
-      data: data,
-    });
+    return res.status(200).json(data);
   } catch (error) {
     logger.error(`Error in fetching Snippets => ${error}`);
     return res.status(500).json({
