@@ -26,19 +26,22 @@ const snippetSchema = new Schema({
     required: true,
   },
   code: {
-    type: String, //[FIXME] - checkout for better datatype for storing code, that keeps the indentation, spacing and formatting intact.
+    type: String,
     required: true,
   },
   tags: {
     type: [String],
     default: [],
   },
+  workspace_id: {
+    type: Schema.Types.ObjectId,
+    required: true,
+  },
   category_id: {
     type: Schema.Types.ObjectId,
     required: true,
   },
   share_status: {
-    // [FIX], we will be needing this in future
     type: Boolean,
     default: false,
   },
@@ -46,6 +49,12 @@ const snippetSchema = new Schema({
     type: [commentSchema], // Array of comments
     default: [],
   },
+});
+
+snippetSchema.index({
+  title: "text",
+  description: "text",
+  tags: "text",
 });
 
 const Snippet = mongoose.model("Snippet", snippetSchema);

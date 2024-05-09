@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import {
   ADD_SNIPPET,
+  DELETE_SNIPPET,
   FETCH_ALL_SNIPPETS,
   FETCH_A_SNIPPET,
+  GLOBAL_SEARCH,
   SHARE_SNIPPET_PERSONALLY,
   UPDATE_SNIPPET_SHARE_STATUS,
 } from "../services/snippet.service";
@@ -120,5 +122,42 @@ export async function shareSnippet(req: Request, res: Response) {
     return res
       .status(500)
       .json({ msg: "Internal Server Error in sharing snippet" });
+  }
+}
+
+export async function delete_snippet(req: Request, res: Response) {
+  try {
+    const s_id = req.query.s_id;
+    logger.info(`REQ : delete a snippet => ${s_id}`);
+    if (!s_id) {
+      logger.error("snippet id is required");
+      return res
+        .status(500)
+        .json({ msg: "snippet id is required for deleting a snippet" });
+    }
+    let data;
+    if (typeof s_id == "string") {
+      data = await DELETE_SNIPPET(s_id);
+    }
+
+    logger.info(`RES : snippet deleted successfully => ${data}`);
+    return res.status(200).json({ msg: "snippet deleted successfully" });
+  } catch (error) {
+    logger.error("error in deleting a snippet");
+    return res.status(500).json({ msg: "Error in deleting a snippet" });
+  }
+}
+
+export async function global_search_for_snippets(req: Request, res: Response) {
+  try {
+    const text_to_search = req.query.text;
+    if (typeof text_to_search == "string") {
+      const data = await GLOBAL_SEARCH(text_to_search);
+      return res.status(200).json(data);
+    }
+
+    return res.status(500).json({ msg: "query is not valid" });
+  } catch (error) {
+    return res.status(500).json({ msg: "INTERNAL SERVER ERROR" });
   }
 }

@@ -71,3 +71,34 @@ export async function SHARE_SNIPPET_PERSONALLY(
     throw error;
   }
 }
+
+export async function DELETE_SNIPPET(id: string) {
+  try {
+    await Snippet.deleteOne({ _id: id });
+    return {
+      message: "snippet deleted successfully",
+    };
+  } catch (error) {
+    logger.error("Caught error in snippet service while deleting a snippet");
+    throw error;
+  }
+}
+
+export async function GLOBAL_SEARCH(text: string) {
+  try {
+    const result = await Snippet.find({
+      $or: [
+        { title: { $regex: text, $options: "i" } },
+        { description: { $regex: text, $options: "i" } },
+        { tags: { $regex: text, $options: "i" } },
+      ],
+    });
+
+    return result;
+  } catch (error) {
+    logger.error(
+      `Caught error in snippet service while doing global search => ${error}`
+    );
+    throw error;
+  }
+}
