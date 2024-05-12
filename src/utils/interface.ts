@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 
 export interface CATEGORY_SCHEMA{
-    id: mongoose.Types.ObjectId
+    _id: mongoose.Types.ObjectId
     name: string;
     description: string;
 
